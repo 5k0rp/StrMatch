@@ -1,0 +1,113 @@
+import "oaidl.idl";
+import "ocidl.idl";
+	
+	[
+		object,
+		uuid(AB634001-F13D-11d0-A459-004095E1DAEA),
+		helpstring("IInitDone Interface"),
+		pointer_default(unique)
+	]
+	interface IInitDone : IUnknown
+	{
+		[helpstring("method Init")] HRESULT Init([in] IDispatch *pConnection);
+		[helpstring("method Done")] HRESULT Done();
+		[helpstring("method GetInfo")] HRESULT GetInfo([in,out] SAFEARRAY (VARIANT) *pInfo);
+	};
+
+	[
+		object,
+		uuid(AB634002-F13D-11d0-A459-004095E1DAEA),
+		helpstring("IPropertyProfile Interface"),
+		pointer_default(unique)
+	]
+	interface IPropertyProfile : IPropertyBag
+	{
+        [helpstring("method RegisterProfileAs")] HRESULT RegisterProfileAs(BSTR bstrProfileName);
+	};
+
+	[
+		object,
+		uuid(ab634004-f13d-11d0-a459-004095e1daea),
+		helpstring("IAsyncEvent Interface"),
+		pointer_default(unique)
+	]
+	interface IAsyncEvent : IUnknown
+	{
+		[helpstring("method SetEventBufferDepth")] HRESULT SetEventBufferDepth(long lDepth);
+		[helpstring("method GetEventBufferDepth")] HRESULT GetEventBufferDepth(long *plDepth);
+		[helpstring("method ExternalEvent")] HRESULT ExternalEvent(BSTR bstrSource, BSTR bstrMessage, BSTR bstrData);
+		[helpstring("method CleanBuffer")] HRESULT CleanBuffer();
+	};
+
+	[
+		object,
+		uuid(AB634003-F13D-11d0-A459-004095E1DAEA),
+		helpstring("ILanguageExtender Interface"),
+		pointer_default(unique)
+	]
+	interface ILanguageExtender : IUnknown
+	{
+		[helpstring("method RegisterExtensionAs")] HRESULT RegisterExtensionAs([in,out]BSTR *bstrExtensionName);
+		[helpstring("method GetNProps")] HRESULT GetNProps([in,out]long *plProps);
+		[helpstring("method FindProp")] HRESULT FindProp([in]BSTR bstrPropName,[in,out]long *plPropNum);
+		[helpstring("method GetPropName")] HRESULT GetPropName([in]long lPropNum,[in]long lPropAlias,[in,out]BSTR *pbstrPropName);
+		[helpstring("method GetPropVal")] HRESULT GetPropVal([in]long lPropNum,[in,out]VARIANT *pvarPropVal);
+		[helpstring("method SetPropVal")] HRESULT SetPropVal([in]long lPropNum,[in]VARIANT *varPropVal);
+		[helpstring("method IsPropReadable")] HRESULT IsPropReadable([in]long lPropNum,[in,out]BOOL *pboolPropRead);
+		[helpstring("method IsPropWritable")] HRESULT IsPropWritable([in]long lPropNum,[in,out]BOOL *pboolPropWrite);
+
+		[helpstring("method GetNMethods")] HRESULT GetNMethods([in,out]long *plMethods);
+		[helpstring("method FindMethod")] HRESULT FindMethod(BSTR bstrMethodName,[in,out]long *plMethodNum);
+		[helpstring("method GetMethodName")] HRESULT GetMethodName([in]long lMethodNum,[in]long lMethodAlias,[in,out]BSTR *pbstrMethodName);
+		[helpstring("method GetNParams")] HRESULT GetNParams([in]long lMethodNum,[in,out]long *plParams);
+		[helpstring("method GetParamDefValue")] HRESULT GetParamDefValue([in]long lMethodNum,[in]long lParamNum,[in,out]VARIANT *pvarParamDefValue);
+		[helpstring("method HasRetVal")] HRESULT HasRetVal([in]long lMethodNum,[in,out]BOOL *pboolRetValue);
+		[helpstring("method CallAsProc")] HRESULT CallAsProc([in]long lMethodNum,[in] SAFEARRAY (VARIANT) *paParams);
+		[helpstring("method CallAsFunc")] HRESULT CallAsFunc([in]long lMethodNum,[in,out] VARIANT *pvarRetValue,[in] SAFEARRAY (VARIANT) *paParams);
+	};
+
+	[
+		object,
+		uuid(ab634005-f13d-11d0-a459-004095e1daea),
+		helpstring("IStatusLine Interface"),
+		pointer_default(unique)
+	]
+	interface IStatusLine : IUnknown
+	{
+		[helpstring("method SetStatusLine")] HRESULT SetStatusLine(BSTR bstrStatusLine);
+		[helpstring("method ResetStatusLine")] HRESULT ResetStatusLine();
+	};
+
+[
+	uuid(4F0D4571-0E7B-11d1-A486-004095E1DAEA),
+	version(1.0),
+	helpstring("V7 AddIn 1.0 Type Library")
+]
+library AddInLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(04024C32-0E7B-11d1-A486-004095E1DAEA),
+		helpstring("StrMatchExtension Class")
+	]
+	coclass AddIn
+	{
+		[default] interface IInitDone;
+		interface ILanguageExtender;
+		interface IPropertyPage;
+	};
+
+	[
+		uuid(912B7392-250D-11d1-A4C8-004095E1DAEA),
+		helpstring("AddInConnection Class")
+	]
+	coclass AddInConnection
+	{
+		[default] interface IPropertyProfile;
+		interface IAsyncEvent;
+		interface IStatusLine;
+		interface IDispatch;
+	};
+};

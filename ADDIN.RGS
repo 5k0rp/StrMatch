@@ -1,0 +1,32 @@
+HKCR
+{
+	StrMatchExtension.1 = s 'StrMatchExtension Class'
+	{
+		CLSID = s '{04024C32-0E7B-11d1-A486-004095E1DAEA}'
+	}
+	StrMatchExtension = s 'StrMatchExtension Class'
+	{
+		CLSID = s '{04024C32-0E7B-11d1-A486-004095E1DAEA}'
+	}
+	Addin.StrMatchExtension.1 = s 'StrMatchExtension Class'
+	{
+		CLSID = s '{04024C32-0E7B-11d1-A486-004095E1DAEA}'
+	}
+	Addin.StrMatchExtension = s 'StrMatchExtension Class'
+	{
+		CLSID = s '{04024C32-0E7B-11d1-A486-004095E1DAEA}'
+	}
+
+	NoRemove CLSID
+	{
+		ForceRemove {04024C32-0E7B-11d1-A486-004095E1DAEA} = s 'StrMatchExtension Class'
+		{
+			ProgID = s 'StrMatchExtension.1'
+			VersionIndependentProgID = s 'StrMatchExtension'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}
